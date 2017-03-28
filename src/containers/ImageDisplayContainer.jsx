@@ -6,15 +6,20 @@ import actions from "./../actions/index";
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        image: state.images[ownProps.imageIndex],
-        imageIndex: ownProps.imageIndex
+        image: ownProps.image,
+        imageIndex: ownProps.imageIndex,
+        favs: ownProps.favs
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        toggleImageFavStatus: (imageIndex) => {
-            dispatch(actions.toggleImageFavStatus(imageIndex));
+        removeFav: (image) => {
+            dispatch(actions.removeImageFromFavs(image));
+        },
+
+        addFav: (image) => {
+            dispatch(actions.addImageToFavs(image));
         }
     }
 };

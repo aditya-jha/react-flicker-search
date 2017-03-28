@@ -7,7 +7,7 @@ export default class ImageData {
         this.server = image.server;
         this.farm = image.farm;
         this.title = image.title;
-        this.fav = false;
+        this.fav = image.fav ? true : false;
         this.url = "https://farm" + image.farm + ".staticflickr.com/" + image.server + "/" + image.id + "_" + image.secret + ".jpg";
     }
 

@@ -12,6 +12,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        initFavs: (images) => {
+            dispatch(Actions.initFavs(images));
+        }
     }
 };
 

@@ -9,6 +9,9 @@ import FavoriteBorder from "material-ui/svg-icons/action/favorite-border";
 export default class ImageDisplayComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.scope = {
+            image: props.image
+        };
         this.state = {
             favStatus: props.image.fav
         }
@@ -46,10 +49,16 @@ export default class ImageDisplayComponent extends React.Component {
 
     toggleImageFavStatus() {
         this.setState((prevState, props) => {
+            if (prevState.favStatus) {
+                this.props.removeFav(this.scope.image);
+            } else {
+                this.scope.image.fav = true;
+                this.props.addFav(this.scope.image);
+            }
             return {
                 favStatus: !prevState.favStatus
             }
         });
-        this.props.toggleImageFavStatus(this.props.imageIndex);
+        // this.props.toggleImageFavStatus(this.props.imageIndex);
     }
 }

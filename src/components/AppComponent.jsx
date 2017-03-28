@@ -6,11 +6,25 @@ import {Grid, Row, Col} from "react-flexbox-grid";
 import SearchBarContainer from "./../containers/SearchBarContainer";
 import ToggleFavContainer from "./../containers/ToggleFavContainer";
 import ImageDisplayContainer from "./../containers/ImageDisplayContainer";
+import ShortlistService from "./../services/ShortlistService";
 
 export default class AppComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    componentWillMount() {
+        ShortlistService.fetchData().then((res) => {
+            console.log(res);
+            this.props.initFavs(res);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        ShortlistService.setData(nextProps.favs);
     }
 
     render() {
@@ -28,14 +42,20 @@ export default class AppComponent extends React.Component {
                     </Row>
                     <br/>
                     <Row>
-                        {this.props.images.map((image, index) => {
-                            if (!this.props.showAll && !image.fav) return;
-                            else return (
+                        {this.props.showAll ?
+                            this.props.images.map((image, index) => (
                                 <Col xs={12} sm={6} md={4} key={image.id}>
-                                    <ImageDisplayContainer imageIndex={index}/>
+                                    <ImageDisplayContainer imageIndex={index} image={image} favs={false}/>
                                 </Col>
-                            )
-                        })}
+                            ))
+                            :
+                            this.props.favs.map((image, index) => (
+                                <Col xs={12} sm={6} md={4} key={image.id}>
+                                    <ImageDisplayContainer imageIndex={index}  image={image} favs={true}/>
+                                </Col>
+                            ))
+                        }
+
                     </Row>
                 </Grid>
             </MuiThemeProvider>

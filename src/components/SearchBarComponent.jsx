@@ -4,6 +4,8 @@ import React, {PropTypes} from "react";
 import ImageSearchService from "./../services/ImageSearchService";
 import {Row, Col} from "react-flexbox-grid";
 import TextField from "material-ui/TextField";
+import ShortlistService from "./../services/ShortlistService";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default class SearchBarComponent extends React.Component {
     constructor(props) {
@@ -25,6 +27,7 @@ export default class SearchBarComponent extends React.Component {
                                 type="text"
                                 hintText="Enter search text"
                                 floatingLabelText="Search Text"/>
+                            <RaisedButton label="search" type="submit" primary={true}/>
                         </Col>
                     </Row>
                 </form>
@@ -40,11 +43,23 @@ export default class SearchBarComponent extends React.Component {
         event.preventDefault();
         if (!this.scope.searchText) return;
 
+        if (!this.props.showAll) this.props.toggleShowAll();
+
         ImageSearchService
             .fetchImages(this.scope.searchText)
             .then((res) => {
-                console.log(res);
-                this.props.setImagesToState(res);
+                ShortlistService.fetchData().then((favs) => {
+                    let favIds = {};
+                    for(let i=0;i<favs.length;i++) {
+                        favIds[favs[i].id] = 1;
+                    }
+                    for(let i=0;i<res.length;i++) {
+                        if (favIds[res[i].id]) {
+                            res[i].fav = true;
+                        }
+                    }
+                    this.props.setImagesToState(res);
+                });
             })
             .catch((err) => {
                 console.log(err);
