@@ -8,6 +8,19 @@ const ACTIONS = {
             type: ActionConstants.SET_IMAGES_TO_STATE,
             images
         }
+    },
+
+    toggleShowAll() {
+        return {
+            type: ActionConstants.TOGGLE_SHOW_ALL
+        }
+    },
+
+    toggleImageFavStatus(imageIndex) {
+        return {
+            type: ActionConstants.TOGGLE_IMAGE_FAV_STATUS,
+            imageIndex
+        }
     }
 };
 

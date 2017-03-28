@@ -2,6 +2,7 @@
 
 import APIService from "./../services/APIService";
 import ImageData from "./../models/ImageData";
+import axios from "axios";
 
 const IMAGE_SEARCH_SERVICE = {
     fetchImages(keyword) {
@@ -16,7 +17,7 @@ const IMAGE_SEARCH_SERVICE = {
                     text: keyword,
                     format: "json",
                     nojsoncallback: 1,
-                    per_page: 20
+                    per_page: 10
                 }
             }).then((res) => {
                 console.log(res.data);
